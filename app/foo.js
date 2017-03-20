@@ -1,7 +1,5 @@
 'use strict';
 
-var bar = require('./bar');
-
 var myName = 'foo';
 
 module.exports = {
@@ -15,6 +13,6 @@ module.exports = {
     },
     greet: function ()
     {
-        return 'Hello ' + bar.getName();
+        return 'Hello ' + require('./bar').getName();
     }
 };
