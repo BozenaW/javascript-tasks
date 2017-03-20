@@ -5,18 +5,19 @@ var Promise = require('bluebird');
 module.exports = function (http)
 {
     return {
-        get: function (url, callback)
+        get: function (url)
         {
-            function internalCallback(err, response)
+            return new Promise(function (resolve, reject)
             {
-                if (err) {
-                    callback(err);
-                } else {
-                    callback(null, response.body);
-                }
-            }
-
-            http.get(url, internalCallback);
+                http.get(url, function internalCallback(err, response)
+                {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(response.body);
+                    }
+                });
+            });
         }
     };
 };
