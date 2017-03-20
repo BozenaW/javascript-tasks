@@ -2,10 +2,9 @@
 
 var _ = require('lodash');
 
-var storage = {};
-var idSequence = 1;
-
 module.exports = function () {
+    var storage = {};
+    var idSequence = 1;
     return {
         save: function (item) {
             item = _.cloneDeep(item);
