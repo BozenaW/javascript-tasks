@@ -9,7 +9,7 @@ module.exports = function createApp(baseUrl)
         {
             return $http.get(baseUrl + '/').spread(function (res, body)
             {
-                return body === 100;
+                return body === '100';
             });
         }
     };
