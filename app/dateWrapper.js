@@ -1,9 +1,8 @@
 'use strict';
 
+var date;
+
 module.exports = function () {
-
-    var date;
-
     return {
         get: function () {
             return date ? date : new Date();
