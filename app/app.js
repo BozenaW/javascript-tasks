@@ -1,45 +1,47 @@
 'use strict';
 
+var Promise = require('bluebird');
+
 module.exports = function (db)
 {
 
-    function getEquipmentById(id, callback)
+    function getEquipmentById(id)
     {
-        db.get('equipment', id, function (error, data)
+        return new Promise(function (resolve, reject)
         {
-            if (!data) {
-                callback(new Error('No equipment found with id: ' + id));
-            } else {
-                callback(null, data);
-            }
-        });
-    }
-
-    function getOwnerById(id, callback)
-    {
-        db.get('owner', id, function (error, data)
-        {
-            if (!data) {
-                callback(new Error('No owner found with id: ' + id));
-            } else {
-                callback(null, data);
-            }
-        });
-    }
-
-    function getOwnerNameByEquipmentId(id, callback)
-    {
-        getEquipmentById(id, function (err, equipment)
-        {
-            if (err) {
-                return callback(err);
-            }
-            getOwnerById(equipment.owner, function (err, owner)
+            db.get('equipment', id, function (error, data)
             {
-                if (err) {
-                    return callback(err);
+                if (!data) {
+                    reject(new Error('No equipment found with id: ' + id));
+                } else {
+                    resolve(data);
                 }
-                callback(null, owner.name);
+            });
+        });
+    }
+
+    function getOwnerById(id)
+    {
+        return new Promise(function (resolve, reject)
+        {
+            db.get('owner', id, function (error, data)
+            {
+                if (!data) {
+                    reject(new Error('No owner found with id: ' + id));
+                } else {
+                    resolve(data);
+                }
+            });
+        });
+    }
+
+    function getOwnerNameByEquipmentId(id)
+    {
+        return getEquipmentById(id).then(function (equipment)
+        {
+            return getOwnerById(equipment.owner).then(function (owner)
+            {
+                return owner.name;
             });
         });
     }
