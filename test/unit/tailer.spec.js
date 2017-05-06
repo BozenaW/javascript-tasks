@@ -18,7 +18,7 @@ describe('tailer', function () {
 
     before(function (done) {
         var MongoClient = require('mongodb').MongoClient;
-        var url = 'mongodb://localhost/test';
+        var url = 'mongodb://' + (process.env.MONGO_HOST || 'localhost') + '/test';
         var catOptions;
         var dogOptions;
         var nonCappedCollectionOptions = {};
